@@ -56,6 +56,13 @@ def register():
     email = data.get('email')
     password = data.get('password')
 
+    try:
+        # Test a simple query
+        db.session.execute(text('SELECT 1'))
+        return "Database connected, home"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
     #name = request.json.get('name')
     #email = request.json.get('email')
     #password = request.json.get('password')
