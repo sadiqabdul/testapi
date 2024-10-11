@@ -4,6 +4,8 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from datetime import timedelta
 from flask_migrate import Migrate
 
+from sqlalchemy import text
+
 import os
 
 app = Flask(__name__)
@@ -39,7 +41,7 @@ class TodoItem(db.Model):
 def home():
     try:
         # Test a simple query
-        db.session.execute('SELECT 1')
+        db.session.execute(text('SELECT 1'))
         return "Database connected, home"
     except Exception as e:
         return f"Error: {str(e)}"
