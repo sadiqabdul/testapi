@@ -51,23 +51,21 @@ def register():
         return jsonify(message="Email is already registered"), 409
         
     # Create and save the new user
-    user = UserT(name=name, email=email, password=password)
-    db.session.add(user)
+    users = UserT(name=name, email=email, password=password)
+    db.session.add(users)
     db.session.commit()
     return jsonify(message="User registered"), 201
-
-    
     
 # Login Route
 @app.route('/login', methods=['POST'])
 def login():
     email = request.json.get('email')
     password = request.json.get('password')
-    user = UserT.query.filter_by(email=email).first()
+    users = UserT.query.filter_by(email=email).first()
 
     # Check if user exists and password matches
-    if user and user.password == password:
-        access_token = create_access_token(identity=user.email)
+    if users and users.password == password:
+        access_token = create_access_token(identity=users.email)
         return jsonify(access_token=access_token, message="Welcome!")
     else:
         return jsonify(message="Invalid email or password"), 401
