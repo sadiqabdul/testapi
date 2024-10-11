@@ -39,6 +39,15 @@ class TodoItem(db.Model):
 def home():
     return "home"
 
+@app.route('/run-migrations', methods=['GET'])
+def run_migrations():
+    try:
+        from flask_migrate import upgrade
+        upgrade()  # Run the upgrade function
+        return jsonify(message="Migrations applied successfully"), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
 # Register Route
 @app.route('/register', methods=['POST'])
 def register():
