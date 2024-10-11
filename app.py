@@ -38,9 +38,14 @@ class TodoItem(db.Model):
 # Register Route
 @app.route('/register', methods=['POST'])
 def register():
-    name = request.json.get('name')
-    email = request.json.get('email')
-    password = request.json.get('password')
+    data = request.get_json()
+    name = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+
+    #name = request.json.get('name')
+    #email = request.json.get('email')
+    #password = request.json.get('password')
     
     # Check if the email is already in use
     if User.query.filter_by(email=email).first():
