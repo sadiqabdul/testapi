@@ -37,6 +37,13 @@ class TodoItem(db.Model):
 
 @app.route('/')
 def home():
+    try:
+        # Test a simple query
+        db.session.execute('SELECT 1')
+        return "Database connected, home"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
     return "home"
 
 # Register Route
