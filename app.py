@@ -51,32 +51,32 @@ def home():
 # Register Route
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    name = data.get('username')
-    email = data.get('email')
-    password = data.get('password')
-
     try:
         # Test a simple query
         db.session.execute(text('SELECT 1'))
-        return "Database connected, home"
+        
+        data = request.get_json()
+        name = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+
+        #name = request.json.get('name')
+        #email = request.json.get('email')
+        #password = request.json.get('password')
+        
+        # Check if the email is already in use
+        if User.query.filter_by(email=email).first():
+            return jsonify(message="Email is already registered"), 409
+        
+        # Create and save the new user
+        user = User(name=name, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify(message="User registered"), 201
+
     except Exception as e:
         return f"Error: {str(e)}"
-
-    #name = request.json.get('name')
-    #email = request.json.get('email')
-    #password = request.json.get('password')
     
-    # Check if the email is already in use
-    if User.query.filter_by(email=email).first():
-        return jsonify(message="Email is already registered"), 409
-    
-    # Create and save the new user
-    user = User(name=name, email=email, password=password)
-    db.session.add(user)
-    db.session.commit()
-    return jsonify(message="User registered"), 201
-
 # Login Route
 @app.route('/login', methods=['POST'])
 def login():
