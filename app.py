@@ -19,8 +19,8 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
 
-# UserT Model
-class UserT(db.Model):
+# User Model
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -47,11 +47,11 @@ def register():
     password = request.json.get('password')
         
     # Check if the email is already in use
-    if UserT.query.filter_by(email=email).first():
+    if User.query.filter_by(email=email).first():
         return jsonify(message="Email is already registered"), 409
         
     # Create and save the new user
-    users = UserT(name=name, email=email, password=password)
+    users = User(name=name, email=email, password=password)
     db.session.add(users)
     db.session.commit()
     return jsonify(message="User registered"), 201
@@ -61,7 +61,7 @@ def register():
 def login():
     email = request.json.get('email')
     password = request.json.get('password')
-    users = UserT.query.filter_by(email=email).first()
+    users = User.query.filter_by(email=email).first()
 
     # Check if user exists and password matches
     if users and users.password == password:
