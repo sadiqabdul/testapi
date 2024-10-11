@@ -35,6 +35,10 @@ class TodoItem(db.Model):
 
 # Routes (add more later)
 
+@app.route('/')
+def home():
+    return "home"
+
 # Register Route
 @app.route('/register', methods=['POST'])
 def register():
