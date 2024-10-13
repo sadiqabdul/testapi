@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 # Configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db' os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change to a strong key
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
