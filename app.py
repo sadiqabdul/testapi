@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta
 from flask_migrate import Migrate
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
+CORS(app)
 
 # User Model
 class User(db.Model):
@@ -154,4 +156,3 @@ def search_tasks():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
