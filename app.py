@@ -77,7 +77,7 @@ def login():
     # Check if user exists and password matches
     if users and users.password == password:
         access_token = create_access_token(identity=users.id)
-        return jsonify(access_token=access_token)
+        return jsonify(message="Login Successful", access_token=access_token)
     else:
         return jsonify(message="Invalid email or password"), 401
 
